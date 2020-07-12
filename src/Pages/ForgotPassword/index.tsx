@@ -26,8 +26,6 @@ const ForgotPassword: React.FC = () => {
 
   const { addToast } = useToast();
 
-  // const history = useHistory();
-
   const handleSubmit = useCallback(
     async (data: ForgotPasswordFormData) => {
       try {
@@ -57,8 +55,6 @@ const ForgotPassword: React.FC = () => {
           description:
             'Verifique as instruões recebidas por email para recuperar a senha',
         });
-
-        // history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -87,7 +83,7 @@ const ForgotPassword: React.FC = () => {
           <img src={logoImg} alt="GoBarber" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Recuperar senha</h1>
+            <h2>Recuperar senha</h2>
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
 

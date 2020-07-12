@@ -8,7 +8,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 
-// import logoImg from '../../assets/logo.svg';
+import logoImg from '../../assets/logo.svg';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -84,10 +84,10 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          {/* <img src={logoImg} alt="GoBarber" /> */}
+          <img src={logoImg} alt="NailPlace" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Resetar senha</h1>
+            <h2>Resetar senha</h2>
 
             <Input
               name="password"

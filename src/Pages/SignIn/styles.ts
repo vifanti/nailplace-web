@@ -16,7 +16,7 @@ export const Content = styled.div`
   padding: 40px 0;
 
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
 `;
 
 const appearFromLeft = keyframes`
