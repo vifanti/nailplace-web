@@ -30,7 +30,7 @@ interface SignUpFormData {
   password: string;
 }
 
-const SignUp: React.FC = () => {
+const ProviderSignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
@@ -97,7 +97,7 @@ const SignUp: React.FC = () => {
           <img src={logoImg} alt="NailPlace" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h2>Faça seu cadastro</h2>
+            <h2>Cadastro do prestador</h2>
 
             <Input name="name" icon={FiUser} placeholder="Nome" />
             <Input name="cpf" icon={FiCreditCard} placeholder="CPF" />
@@ -124,7 +124,7 @@ const SignUp: React.FC = () => {
             <Button type="submit">Cadastrar</Button>
           </Form>
 
-          <Link to="/">
+          <Link to="/provider-signin">
             <FiArrowLeft />
             Voltar para logon
           </Link>
@@ -134,4 +134,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default ProviderSignUp;

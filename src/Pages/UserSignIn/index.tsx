@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { FiMail, FiLock } from 'react-icons/fi';
+import { FiMail, FiLock, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -21,7 +21,7 @@ interface SigInFormData {
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const UserSignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
@@ -76,7 +76,7 @@ const SignIn: React.FC = () => {
           <img src={logoImg} alt="NailPlace" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h2>Faça seu logon</h2>
+            <h2>Entrar como usuário</h2>
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
             <Input
@@ -86,16 +86,21 @@ const SignIn: React.FC = () => {
               placeholder="Senha"
             />
 
+            <Link to="/forgot-password">Esqueci minha senha</Link>
+
             <Button type="submit">Entrar</Button>
 
-            <Link to="/signup">
+            <Link to="/user-signup">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta
               </Button>
             </Link>
           </Form>
-          <Link to="/forgot-password">Esqueci minha senha</Link>
+          <Link to="/">
+            <FiArrowLeft />
+            Voltar
+          </Link>
         </AnimationContainer>
       </Content>
 
@@ -104,4 +109,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default UserSignIn;

@@ -76,6 +76,12 @@ export const AnimationContainer = styled.div`
     display: flex;
     align-items: center;
 
+    svg {
+      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+    }
+
     &:hover {
       color: ${shade(0.4, '#F27983')};
     }
