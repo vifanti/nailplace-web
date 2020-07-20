@@ -47,7 +47,22 @@ export const AnimationContainer = styled.div`
     text-align: center;
 
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 28px;
+    }
+
+    fieldset {
+      margin-top: 42px;
+      min-inline-size: auto;
+      border: 0;
+
+      legend {
+        margin-bottom: 8px;
+        text-align: left;
+      }
+    }
+
+    fieldset:first-of-type {
+      margin-top: 0px;
     }
   }
 
@@ -69,6 +84,64 @@ export const AnimationContainer = styled.div`
     &:hover {
       color: ${shade(0.4, '#F27983')};
     }
+  }
+`;
+
+export const PhoneNumberContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: 8px;
+
+  div {
+    margin-top: 0;
+  }
+
+  div:first-of-type {
+    max-width: 64px;
+    border-right: 0;
+    input {
+      text-align: right;
+      /* padding-right: 8px; */
+      width: 100%;
+    }
+  }
+
+  div:last-of-type {
+    border-left: 0;
+  }
+`;
+
+export const InputGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: 8px;
+
+  div {
+    margin-top: 0;
+    input {
+      width: 100%;
+    }
+  }
+
+  div:first-of-type {
+    width: 50%;
+    margin-right: 8px;
+  }
+
+  div:last-of-type {
+    width: 50%;
+  }
+`;
+
+export const VerticalBar = styled.div`
+  display: flex;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+
+  div {
+    border-left: 2px solid #ccc !important;
   }
 `;
 

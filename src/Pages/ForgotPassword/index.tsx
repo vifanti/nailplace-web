@@ -94,7 +94,7 @@ const ForgotPassword: React.FC = () => {
 
           <Link to="/">
             <FiArrowLeft />
-            Voltar ao login
+            Voltar
           </Link>
         </AnimationContainer>
       </Content>

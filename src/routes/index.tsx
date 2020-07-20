@@ -8,6 +8,7 @@ import UserSignIn from '../Pages/UserSignIn';
 import UserSignUp from '../Pages/UserSignUp';
 import ProviderSignIn from '../Pages/ProviderSignIn';
 import ProviderSignUp from '../Pages/ProviderSignUp';
+import ProviderRegistration from '../Pages/ProviderRegistration';
 import ForgotPassword from '../Pages/ForgotPassword';
 import ResetPassword from '../Pages/ResetPassword';
 
@@ -21,6 +22,12 @@ const Routes: React.FC = () => (
     <Route path="/user-signup" exact component={UserSignUp} />
     <Route path="/provider-signin" exact component={ProviderSignIn} />
     <Route path="/provider-signup" exact component={ProviderSignUp} />
+    <Route
+      path="/provider-registration"
+      exact
+      component={ProviderRegistration}
+      isPrivate
+    />
     <Route path="/forgot-password" exact component={ForgotPassword} />
     <Route path="/reset-password" exact component={ResetPassword} />
 

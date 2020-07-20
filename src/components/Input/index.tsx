@@ -11,9 +11,13 @@ import { useField } from '@unform/core';
 
 import { Container, Error } from './styles';
 
+interface Style {
+  [key: string]: string | number;
+}
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  containerStyle?: object;
+  containerStyle?: Style;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
