@@ -28,8 +28,6 @@ import {
   Content,
   AnimationContainer,
   PhoneNumberContainer,
-  VerticalBar,
-  // InputGroup,
   Background,
 } from './styles';
 
@@ -46,6 +44,13 @@ const ProviderSignUp: React.FC = () => {
   const { signIn } = useAuth();
   const { addToast } = useToast();
   const history = useHistory();
+
+  // função para não acontecer o reoad da página
+  function submitForm(): void {
+    if (formRef.current) {
+      formRef.current.submitForm();
+    }
+  }
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -75,23 +80,23 @@ const ProviderSignUp: React.FC = () => {
             .oneOf([Yup.ref('password')], 'As senhas devem ser iguais'),
         });
 
-        await schema.validate(data, {
-          abortEarly: false,
-        });
+        // await schema.validate(data, {
+        //   abortEarly: false,
+        // });
 
-        console.log({
-          ...data,
-          phoneNumber: data.phoneDDI + data.phoneNumber,
-        });
+        // await api.post('/users', {
+        //   ...data,
+        //   phoneNumber: data.phoneDDI + data.phoneNumber,
+        // });
 
-        await api.post('/users', {
-          ...data,
-          phoneNumber: data.phoneDDI + data.phoneNumber,
-        });
+        // await signIn({
+        //   email: data.email,
+        //   password: data.password,
+        // });
 
         await signIn({
-          email: data.email,
-          password: data.password,
+          email: 'vifanti2@gmail.com',
+          password: '123456',
         });
 
         history.push('/provider-registration');
@@ -99,7 +104,7 @@ const ProviderSignUp: React.FC = () => {
         addToast({
           type: 'success',
           title: 'Usuário cadastrado!',
-          description: 'Complete o seu cadastro.',
+          description: 'Complete o seu cadastro de prestador.',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -140,9 +145,6 @@ const ProviderSignUp: React.FC = () => {
                   maxLength={5}
                   type="tel"
                 />
-                <VerticalBar>
-                  <div />
-                </VerticalBar>
                 <Input name="phoneNumber" placeholder="Número de telefone" />
               </PhoneNumberContainer>
               <Input name="name" icon={FiUser} placeholder="Nome" />
@@ -192,7 +194,7 @@ const ProviderSignUp: React.FC = () => {
               </InputGroup>
             </fieldset> */}
 
-            <Button type="submit">Continuar o cadastro</Button>
+            <Button onClick={submitForm}>Continuar o cadastro</Button>
           </Form>
 
           <Link to="/provider-signin">

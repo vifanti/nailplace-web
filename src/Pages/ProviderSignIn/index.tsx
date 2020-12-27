@@ -15,6 +15,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
+import api from '../../services/api';
 
 interface SigInFormData {
   email: string;
@@ -25,6 +26,7 @@ const ProviderSignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const { user } = useAuth();
   const { addToast } = useToast();
 
   const history = useHistory();
@@ -50,7 +52,7 @@ const ProviderSignIn: React.FC = () => {
           password: data.password,
         });
 
-        history.push('/dashboard');
+        // history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);

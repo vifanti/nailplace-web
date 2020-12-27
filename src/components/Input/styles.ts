@@ -20,6 +20,8 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
 
+  position: relative;
+
   & + div {
     margin-top: 8px;
   }

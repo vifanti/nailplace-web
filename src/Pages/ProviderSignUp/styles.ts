@@ -102,13 +102,22 @@ export const PhoneNumberContainer = styled.div`
     border-right: 0;
     input {
       text-align: right;
-      /* padding-right: 8px; */
       width: 100%;
     }
   }
 
   div:last-of-type {
     border-left: 0;
+  }
+
+  div + div::before {
+    position: absolute;
+    height: 70%;
+    width: 1px;
+    left: 0px;
+    top: 15%;
+    background: #ccc;
+    content: '';
   }
 `;
 
@@ -132,16 +141,6 @@ export const InputGroup = styled.div`
 
   div:last-of-type {
     width: 50%;
-  }
-`;
-
-export const VerticalBar = styled.div`
-  display: flex;
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-
-  div {
-    border-left: 2px solid #ccc !important;
   }
 `;
 

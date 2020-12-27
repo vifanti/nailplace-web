@@ -3,6 +3,7 @@ import api from '../services/api';
 
 interface User {
   id: string;
+  providerId: string;
   name: string;
   email: string;
   avatar_url: string;
@@ -29,8 +30,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = localStorage.getItem('@NailPlace:token');
+    const user = localStorage.getItem('@NailPlace:user');
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -49,8 +50,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
     const { token, user } = response.data;
 
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    localStorage.setItem('@NailPlace:token', token);
+    localStorage.setItem('@NailPlace:user', JSON.stringify(user));
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -58,15 +59,15 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GoBarber:token');
-    localStorage.removeItem('@GoBarber:user');
+    localStorage.removeItem('@NailPlace:token');
+    localStorage.removeItem('@NailPlace:user');
 
     setData({} as AuthState);
   }, []);
 
   const updateUser = useCallback(
     (user: User) => {
-      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      localStorage.setItem('@NailPlace:user', JSON.stringify(user));
 
       setData({
         token: data.token,
