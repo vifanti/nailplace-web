@@ -13,7 +13,7 @@ import ForgotPassword from '../Pages/ForgotPassword';
 import ResetPassword from '../Pages/ResetPassword';
 
 // import Profile from '../Pages/Profile';
-// import Dashboard from '../Pages/Dashboard';
+import Dashboard from '../Pages/Dashboard';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -27,12 +27,13 @@ const Routes: React.FC = () => (
       exact
       component={ProviderRegistration}
       isPrivate
+      isProviderRoute
     />
     <Route path="/forgot-password" exact component={ForgotPassword} />
     <Route path="/reset-password" exact component={ResetPassword} />
 
-    {/* <Route path="/profile" exact component={Profile} isPrivate />
-    <Route path="/dashboard" exact component={Dashboard} isPrivate /> */}
+    {/* <Route path="/profile" exact component={Profile} isPrivate /> */}
+    <Route path="/dashboard" exact component={Dashboard} isPrivate />
   </Switch>
 );
 

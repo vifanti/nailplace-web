@@ -9,30 +9,77 @@ import { useAuth } from '../hooks/auth';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
+  isProviderRoute?: boolean;
   component: React.ComponentType;
 }
 
 const Route: React.FC<RouteProps> = ({
   isPrivate = false,
+  isProviderRoute = false,
   component: Component,
   ...rest
 }) => {
-  const { user } = useAuth();
+  const { user, isProviderUser } = useAuth();
 
   return (
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
-        return isPrivate === !!user ? (
-          <Component />
-        ) : (
-          <Redirect
-            to={{
-              pathname: isPrivate ? '/' : '/dashboard',
-              state: { from: location },
-            }}
-          />
-        );
+        if (isProviderRoute && isProviderUser) {
+          return <Component />;
+        }
+
+        if (isProviderRoute) {
+          return (
+            <Redirect
+              to={{
+                pathname: isProviderRoute
+                  ? '/provider-signin'
+                  : '/provider-registration',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        if (isPrivate && !!user && !isProviderUser) {
+          return <Component />;
+        }
+
+        if (isPrivate) {
+          return (
+            <Redirect
+              to={{
+                pathname: isPrivate ? '/user-signin' : '/dashboard',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        if (user && isProviderUser) {
+          return (
+            <Redirect
+              to={{
+                pathname: '/provider-registration',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        if (user) {
+          return (
+            <Redirect
+              to={{
+                pathname: '/dashboard',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        return <Component />;
       }}
     />
   );

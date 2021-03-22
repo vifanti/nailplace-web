@@ -50,8 +50,21 @@ const ProviderSignIn: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
+          isProviderUser: true,
         });
 
+        history.push('/provider-registration');
+
+        // if (user) {
+        //   console.log(user);
+        //   const providerProfile = await api.get('/providers', {
+        //     params: { user_id: user.id },
+        //   });
+
+        //   if (!providerProfile) {
+        //     history.push('/provider-registration');
+        //   }
+        // }
         // history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -68,7 +81,7 @@ const ProviderSignIn: React.FC = () => {
         });
       }
     },
-    [signIn, addToast, history],
+    [signIn, user, history, addToast],
   );
 
   return (

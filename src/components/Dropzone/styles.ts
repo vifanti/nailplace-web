@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 300px;
+  width: 100%;
   background: rgba(242, 179, 202, 0.2);
   border-radius: 10px;
 
@@ -18,6 +19,7 @@ export const Container = styled.div`
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+    border: 1px dashed #f2b3ca;
   }
 
   p {
@@ -31,6 +33,7 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     color: #333;
+    text-align: center;
 
     svg {
       color: #f2b3ca;

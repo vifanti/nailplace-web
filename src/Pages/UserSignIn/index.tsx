@@ -48,6 +48,7 @@ const UserSignIn: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
+          isProviderUser: false,
         });
 
         history.push('/dashboard');

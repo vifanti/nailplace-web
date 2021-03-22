@@ -62,7 +62,7 @@ const ProviderSignUp: React.FC = () => {
         const schema = Yup.object().shape({
           phoneNumber: Yup.string()
             .required('Número obrigatório')
-            .matches(phoneRegExp, 'Phone number is not valid'),
+            .matches(phoneRegExp, 'O número não é válidp'),
           name: Yup.string().required('Nome obrigatório'),
           // cpf: Yup.string()
           //   .required('CPF obrigatório')
@@ -80,24 +80,25 @@ const ProviderSignUp: React.FC = () => {
             .oneOf([Yup.ref('password')], 'As senhas devem ser iguais'),
         });
 
-        // await schema.validate(data, {
-        //   abortEarly: false,
-        // });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-        // await api.post('/users', {
-        //   ...data,
-        //   phoneNumber: data.phoneDDI + data.phoneNumber,
-        // });
-
-        // await signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
+        await api.post('/users', {
+          ...data,
+          phoneNumber: data.phoneDDI + data.phoneNumber,
+        });
 
         await signIn({
-          email: 'vifanti2@gmail.com',
-          password: '123456',
+          email: data.email,
+          password: data.password,
+          isProviderUser: true,
         });
+
+        // await signIn({
+        //   email: 'vifanti2@gmail.com',
+        //   password: '123456',
+        // });
 
         history.push('/provider-registration');
 
