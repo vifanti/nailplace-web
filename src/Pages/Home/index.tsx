@@ -19,12 +19,12 @@ const Home: React.FC = () => {
       <Content>
         <Title>Seja bem vindo ao Nail Place</Title>
         <Buttons>
-          <Button to="/user-signin">
+          <Button to="/user/signin">
             <img src={userImg} alt="Acesso do usuário" />
             <h2>Acesso do usuário</h2>
           </Button>
 
-          <Button to="/provider-signin">
+          <Button to="/provider/signin">
             <img src={providerImg} alt="Acesso do prestador" />
 
             <h2>Acesso do prestador</h2>

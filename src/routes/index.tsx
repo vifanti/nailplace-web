@@ -14,16 +14,17 @@ import ResetPassword from '../Pages/ResetPassword';
 
 // import Profile from '../Pages/Profile';
 import Dashboard from '../Pages/Dashboard';
+import ProviderDashboard from '../Pages/ProviderDashboard';
 
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/user-signin" exact component={UserSignIn} />
-    <Route path="/user-signup" exact component={UserSignUp} />
-    <Route path="/provider-signin" exact component={ProviderSignIn} />
-    <Route path="/provider-signup" exact component={ProviderSignUp} />
+    <Route path="/user/signin" exact component={UserSignIn} />
+    <Route path="/user/signup" exact component={UserSignUp} />
+    <Route path="/provider/signin" exact component={ProviderSignIn} />
+    <Route path="/provider/signup" exact component={ProviderSignUp} />
     <Route
-      path="/provider-registration"
+      path="/provider/registration"
       exact
       component={ProviderRegistration}
       isPrivate
@@ -33,7 +34,14 @@ const Routes: React.FC = () => (
     <Route path="/reset-password" exact component={ResetPassword} />
 
     {/* <Route path="/profile" exact component={Profile} isPrivate /> */}
-    <Route path="/dashboard" exact component={Dashboard} isPrivate />
+    <Route path="/user/dashboard" exact component={Dashboard} isPrivate />
+    <Route
+      path="/provider/dashboard"
+      exact
+      component={ProviderDashboard}
+      isPrivate
+      isProviderRoute
+    />
   </Switch>
 );
 

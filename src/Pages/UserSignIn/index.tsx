@@ -23,10 +23,8 @@ interface SigInFormData {
 
 const UserSignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-
   const { signIn } = useAuth();
   const { addToast } = useToast();
-
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -91,7 +89,7 @@ const UserSignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <Link to="/user-signup">
+            <Link to="/user/signup">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta

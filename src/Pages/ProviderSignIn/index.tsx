@@ -15,7 +15,6 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
-import api from '../../services/api';
 
 interface SigInFormData {
   email: string;
@@ -24,11 +23,8 @@ interface SigInFormData {
 
 const ProviderSignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-
   const { signIn } = useAuth();
-  const { user } = useAuth();
   const { addToast } = useToast();
-
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -53,19 +49,7 @@ const ProviderSignIn: React.FC = () => {
           isProviderUser: true,
         });
 
-        history.push('/provider-registration');
-
-        // if (user) {
-        //   console.log(user);
-        //   const providerProfile = await api.get('/providers', {
-        //     params: { user_id: user.id },
-        //   });
-
-        //   if (!providerProfile) {
-        //     history.push('/provider-registration');
-        //   }
-        // }
-        // history.push('/dashboard');
+        history.push('/provider/registration');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -81,7 +65,7 @@ const ProviderSignIn: React.FC = () => {
         });
       }
     },
-    [signIn, user, history, addToast],
+    [signIn, history, addToast],
   );
 
   return (
@@ -107,7 +91,7 @@ const ProviderSignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <Link to="/provider-signup">
+            <Link to="/provider/signup">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta

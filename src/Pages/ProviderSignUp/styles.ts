@@ -99,6 +99,7 @@ export const PhoneNumberContainer = styled.div`
 
   div:first-of-type {
     max-width: 64px;
+    padding-right: 16px;
     border-right: 0;
     input {
       text-align: right;

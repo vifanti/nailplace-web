@@ -3,10 +3,22 @@ import api from '../services/api';
 
 interface User {
   id: string;
-  providerId: string;
+  phone_number: string;
   name: string;
   email: string;
   avatar_url: string;
+  provider: {
+    id: string;
+    latitude: number;
+    longitude: number;
+    providesServices: {
+      service: {
+        id: number;
+        title: string;
+        image_url: string;
+      };
+    }[];
+  };
 }
 
 interface AuthState {

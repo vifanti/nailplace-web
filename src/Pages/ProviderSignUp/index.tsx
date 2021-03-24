@@ -95,12 +95,7 @@ const ProviderSignUp: React.FC = () => {
           isProviderUser: true,
         });
 
-        // await signIn({
-        //   email: 'vifanti2@gmail.com',
-        //   password: '123456',
-        // });
-
-        history.push('/provider-registration');
+        history.push('/provider/registration');
 
         addToast({
           type: 'success',
@@ -198,7 +193,7 @@ const ProviderSignUp: React.FC = () => {
             <Button onClick={submitForm}>Continuar o cadastro</Button>
           </Form>
 
-          <Link to="/provider-signin">
+          <Link to="/provider/signin">
             <FiArrowLeft />
             Voltar para logon
           </Link>

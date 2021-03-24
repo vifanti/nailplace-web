@@ -34,8 +34,8 @@ const Route: React.FC<RouteProps> = ({
             <Redirect
               to={{
                 pathname: isProviderRoute
-                  ? '/provider-signin'
-                  : '/provider-registration',
+                  ? '/provider/signin'
+                  : '/provider/dashboard',
                 state: { from: location },
               }}
             />
@@ -50,7 +50,7 @@ const Route: React.FC<RouteProps> = ({
           return (
             <Redirect
               to={{
-                pathname: isPrivate ? '/user-signin' : '/dashboard',
+                pathname: isPrivate ? '/user/signin' : '/user/dashboard',
                 state: { from: location },
               }}
             />
@@ -61,7 +61,7 @@ const Route: React.FC<RouteProps> = ({
           return (
             <Redirect
               to={{
-                pathname: '/provider-registration',
+                pathname: '/provider/registration',
                 state: { from: location },
               }}
             />
@@ -72,7 +72,7 @@ const Route: React.FC<RouteProps> = ({
           return (
             <Redirect
               to={{
-                pathname: '/dashboard',
+                pathname: '/user/dashboard',
                 state: { from: location },
               }}
             />

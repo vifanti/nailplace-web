@@ -11,10 +11,10 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import api from '../../services/api';
-
+import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 
+import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
@@ -32,6 +32,7 @@ interface SignUpFormData {
 
 const UserSignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { signIn } = useAuth();
   const { addToast } = useToast();
   const history = useHistory();
 
@@ -64,7 +65,13 @@ const UserSignUp: React.FC = () => {
 
         await api.post('/users', data);
 
-        history.push('/');
+        await signIn({
+          email: data.email,
+          password: data.password,
+          isProviderUser: false,
+        });
+
+        history.push('/user/dashboard');
 
         addToast({
           type: 'success',
@@ -86,7 +93,7 @@ const UserSignUp: React.FC = () => {
         });
       }
     },
-    [addToast, history],
+    [addToast, history, signIn],
   );
 
   return (
@@ -123,7 +130,7 @@ const UserSignUp: React.FC = () => {
             <Button type="submit">Cadastrar</Button>
           </Form>
 
-          <Link to="/user-signin">
+          <Link to="/user/signin">
             <FiArrowLeft />
             Voltar para logon
           </Link>
