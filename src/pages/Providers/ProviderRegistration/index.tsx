@@ -1,23 +1,33 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { FiMoreHorizontal, FiMoreVertical } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
 
-// import logoImg from '../../assets/logo.svg';
-import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
-import api from '../../services/api';
-import getValidationErrors from '../../utils/getValidationErrors';
+import axios from 'axios';
+import logoImg from '../../../assets/logo.svg';
+import { useAuth } from '../../../hooks/auth';
+import { useToast } from '../../../hooks/toast';
+import api from '../../../services/api';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
-import Dropzone from '../../components/Dropzone';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Dropzone from '../../../components/Dropzone';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 import {
   Container,
   Content,
+  AddressContainer,
+  Legend,
   ServiceListContainer,
   ServiceListTitleContainer,
   ServiceListTitle,
@@ -29,6 +39,11 @@ import {
 } from './styles';
 
 interface ProviderFormData {
+  uf: string;
+  city: string;
+  neighborhood: string;
+  street: string;
+  houseNumber: string;
   latitude: number;
   longitude: number;
 }
@@ -39,6 +54,12 @@ export interface Service {
   image_url: string;
 }
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
 const ProviderRegistration: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { updateUser, user } = useAuth();
@@ -48,10 +69,43 @@ const ProviderRegistration: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [selectedServices, setSelectedServices] = useState<number[]>([]);
 
+  const [ufs, setUfs] = useState([]);
+
+  useEffect(() => {
+    if (!user.provider) {
+      api
+        .get('providers', {
+          params: {
+            user_id: user.id,
+          },
+        })
+        .then((response) => {
+          const [provider] = response.data;
+
+          if (provider) {
+            updateUser({ ...user, provider });
+            history.push('/provider/dashboard');
+          }
+        });
+    }
+  }, [history, updateUser, user]);
+
   useEffect(() => {
     api.get('services').then((response) => {
       setServices(response.data);
     });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+      .then((response) => {
+        const ufInitials = response.data.map((uf: { sigla: string }) => {
+          return { label: uf.sigla, value: uf.sigla };
+        });
+
+        setUfs(ufInitials);
+      });
   }, []);
 
   function handleSelectService(id: number): void {
@@ -68,6 +122,28 @@ const ProviderRegistration: React.FC = () => {
       setSelectedServices([...selectedServices, id]);
     }
   }
+
+  const handleZipCodeChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const zipCode = event.target.value;
+    if (zipCode.length === 8) {
+      axios
+        .get(`https://viacep.com.br/ws/${event.target.value}/json/`)
+        .then((response) => {
+          if (!response.data.erro) {
+            if (zipCode.substring(0, 2) === '13') {
+              formRef.current?.setFieldValue('country', 'Brasil');
+            }
+            const { uf, localidade, bairro, logradouro } = response.data;
+            formRef.current?.setData({
+              uf,
+              city: localidade,
+              neighborhood: bairro,
+              street: logradouro,
+            });
+          }
+        });
+    }
+  };
 
   const handleSubmit = useCallback(
     async (data: ProviderFormData) => {
@@ -145,14 +221,29 @@ const ProviderRegistration: React.FC = () => {
 
   return (
     <Container>
+      <img src={logoImg} alt="NailPlace" />
       <Content>
-        {/* <Logo src={logoImg} alt="NailPlace" /> */}
         <h2>Conclua o cadastro de prestador</h2>
-        <Dropzone
-          onFileUploaded={handleAvatarChange}
-          avatarUrl={user.avatar_url}
-        />
+        <Dropzone onFileUploaded={handleAvatarChange} />
         <Form style={{ width: '100%' }} ref={formRef} onSubmit={handleSubmit}>
+          <AddressContainer>
+            <Legend>
+              <h2>Endereço de atendimento</h2>
+            </Legend>
+            <Input
+              name="zipCode"
+              placeholder="CEP"
+              onChange={handleZipCodeChange}
+            />
+            <Input name="country" placeholder="País" />
+            {/* <Input name="uf" placeholder="UF" /> */}
+            <Select options={ufs} />
+            <Input name="city" placeholder="Cidade" />
+            <Input name="neighborhood" placeholder="Bairro" />
+            <Input name="street" placeholder="Rua" />
+            <Input name="houseNumber" placeholder="Número" />
+          </AddressContainer>
+
           <Input
             name="latitude"
             icon={FiMoreHorizontal}
@@ -164,7 +255,7 @@ const ProviderRegistration: React.FC = () => {
             placeholder="Longitude"
           />
 
-          <ServiceListContainer>
+          {/* <ServiceListContainer>
             <ServiceListTitleContainer>
               <ServiceListTitle>Serviços prestados</ServiceListTitle>
               <ServiceListInstruction>
@@ -185,7 +276,7 @@ const ProviderRegistration: React.FC = () => {
                 </ServiceItem>
               ))}
             </ServiceList>
-          </ServiceListContainer>
+          </ServiceListContainer> */}
 
           <Button type="submit">Cadastrar</Button>
         </Form>

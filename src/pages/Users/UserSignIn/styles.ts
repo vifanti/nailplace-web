@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
-import signUpBackgroundImg from '../../assets/sign-up-background.png';
+import signInBackgroundImg from '../../../assets/sign-in-background.png';
 
 export const Container = styled.div`
   display: flex;
@@ -16,18 +16,18 @@ export const Content = styled.div`
   padding: 40px 0;
 
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
 `;
 
-const appearFromRight = keyframes`
-from{
-  opacity: 0;
-  transform: translateX(50px);
-}
-to{
-  opacity: 1;
-  transform: translateX(0);
-}
+const appearFromLeft = keyframes`
+  from{
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
 `;
 
 export const AnimationContainer = styled.div`
@@ -36,7 +36,7 @@ export const AnimationContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  animation: ${appearFromRight} 1s;
+  animation: ${appearFromLeft} 1s;
 
   img {
     margin-bottom: 40px;
@@ -81,12 +81,11 @@ export const AnimationContainer = styled.div`
     margin-top: 24px;
     text-decoration: none;
     transition: color 0.2s;
-
     display: flex;
     align-items: center;
 
     svg {
-      margin-right: 8px;
+      margin-left: 8px;
       width: 20px;
       height: 20px;
     }
@@ -99,7 +98,7 @@ export const AnimationContainer = styled.div`
 
 export const Background = styled.div`
   flex: 1;
-  background: url(${signUpBackgroundImg}) no-repeat center;
+  background: url(${signInBackgroundImg}) no-repeat center;
   background-size: cover;
   min-height: 100vh;
 `;

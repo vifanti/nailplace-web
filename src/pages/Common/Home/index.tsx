@@ -9,8 +9,8 @@ import {
   Button,
 } from './styles';
 
-import userImg from '../../assets/user.png';
-import providerImg from '../../assets/provider.png';
+import userImg from '../../../assets/user.png';
+import providerImg from '../../../assets/provider.png';
 
 const Home: React.FC = () => {
   return (

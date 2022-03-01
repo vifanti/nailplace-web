@@ -53,7 +53,7 @@ export const Container = styled.div<ContainerProps>`
     width: 100%;
 
     &::placeholder {
-      color: #000;
+      color: #888;
 
       ${(props) =>
         props.isFocused &&

@@ -8,6 +8,8 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  padding: 24px;
 
   /* border: 2px;
   border-color: red;
@@ -24,6 +26,24 @@ export const Content = styled.div`
   /* border: 2px;
   border-color: red;
   border-style: solid; */
+`;
+
+export const AddressContainer = styled.fieldset`
+  margin-top: 32px;
+  min-inline-size: auto;
+  border: 0;
+`;
+
+export const Legend = styled.legend`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+
+  h2 {
+    font-size: 24px;
+  }
 `;
 
 export const ServiceListContainer = styled.fieldset`

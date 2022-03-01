@@ -1,18 +1,18 @@
 import React, { useRef, useCallback } from 'react';
-import { FiMail, FiLock, FiArrowLeft } from 'react-icons/fi';
+import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
-import getValidationErrors from '../../utils/getValidationErrors';
+import { useAuth } from '../../../hooks/auth';
+import { useToast } from '../../../hooks/toast';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../../assets/logo.svg';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
 
@@ -46,10 +46,9 @@ const UserSignIn: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
-          isProviderUser: false,
         });
 
-        history.push('/dashboard');
+        history.push('/user/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -97,8 +96,8 @@ const UserSignIn: React.FC = () => {
             </Link>
           </Form>
           <Link to="/">
-            <FiArrowLeft />
             Voltar
+            <FiArrowRight />
           </Link>
         </AnimationContainer>
       </Content>

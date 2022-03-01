@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import px2vw from '../../utils/px2vw';
-import signInBackgroundImg from '../../assets/background-mobile.png';
+import px2vw from '../../../utils/px2vw';
+import signInBackgroundImg from '../../../assets/background-mobile.png';
 
 export const Container = styled.div`
   display: flex;

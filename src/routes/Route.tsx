@@ -19,45 +19,27 @@ const Route: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const { user, isProviderUser } = useAuth();
+  const { user } = useAuth();
 
   return (
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
-        if (isProviderRoute && isProviderUser) {
+        console.log(isPrivate);
+        console.log(isProviderRoute);
+        if (isProviderRoute && user && 'provider' in user) {
+          console.log(
+            'Rota de prestador com prestador logado. Carrega o componente',
+          );
+
           return <Component />;
         }
 
-        if (isProviderRoute) {
-          return (
-            <Redirect
-              to={{
-                pathname: isProviderRoute
-                  ? '/provider/signin'
-                  : '/provider/dashboard',
-                state: { from: location },
-              }}
-            />
+        if (isProviderRoute && user) {
+          console.log(
+            'Rota de prestador com usuário logado sem prestador. Provider registration',
           );
-        }
 
-        if (isPrivate && !!user && !isProviderUser) {
-          return <Component />;
-        }
-
-        if (isPrivate) {
-          return (
-            <Redirect
-              to={{
-                pathname: isPrivate ? '/user/signin' : '/user/dashboard',
-                state: { from: location },
-              }}
-            />
-          );
-        }
-
-        if (user && isProviderUser) {
           return (
             <Redirect
               to={{
@@ -68,7 +50,55 @@ const Route: React.FC<RouteProps> = ({
           );
         }
 
+        if (isProviderRoute) {
+          console.log('Rota de prestador sem usuário logado. Provider Signin');
+
+          return (
+            <Redirect
+              to={{
+                pathname: '/provider/signin',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        if (isPrivate && user && !('provider' in user)) {
+          console.log(
+            'Rota de usuário com usuário logado. Carrega o componente',
+          );
+          return <Component />;
+        }
+
+        if (isPrivate) {
+          console.log('Rota de prestador sem usuário logado. Provider Signin');
+          return (
+            <Redirect
+              to={{
+                pathname: '/user/signin',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
+        if (user && 'provider' in user) {
+          console.log(
+            'Rota não segura com prestador logado. Provider dashboard',
+          );
+
+          return (
+            <Redirect
+              to={{
+                pathname: '/provider/dashboard',
+                state: { from: location },
+              }}
+            />
+          );
+        }
+
         if (user) {
+          console.log('Rota não segura com usuário logado. User dashboard');
           return (
             <Redirect
               to={{
@@ -78,6 +108,8 @@ const Route: React.FC<RouteProps> = ({
             />
           );
         }
+
+        console.log('Rota não segura sem usuário logado');
 
         return <Component />;
       }}

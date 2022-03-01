@@ -11,16 +11,16 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
+import { useAuth } from '../../../hooks/auth';
+import { useToast } from '../../../hooks/toast';
 
-import api from '../../services/api';
-import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../../services/api';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../../assets/logo.svg';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
 
@@ -68,7 +68,6 @@ const UserSignUp: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
-          isProviderUser: false,
         });
 
         history.push('/user/dashboard');

@@ -1,47 +1,22 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
-import Route from './Route';
+// import Route from './Route';
+import UserRoutes from './UserRoutes';
+import ProviderRoutes from './ProviderRoutes';
 
-import Home from '../Pages/Home';
-import UserSignIn from '../Pages/UserSignIn';
-import UserSignUp from '../Pages/UserSignUp';
-import ProviderSignIn from '../Pages/ProviderSignIn';
-import ProviderSignUp from '../Pages/ProviderSignUp';
-import ProviderRegistration from '../Pages/ProviderRegistration';
-import ForgotPassword from '../Pages/ForgotPassword';
-import ResetPassword from '../Pages/ResetPassword';
-
-// import Profile from '../Pages/Profile';
-import Dashboard from '../Pages/Dashboard';
-import ProviderDashboard from '../Pages/ProviderDashboard';
+import Home from '../pages/Common/Home';
+import ForgotPassword from '../pages/Common/ForgotPassword';
+import ResetPassword from '../pages/Common/ResetPassword';
 
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/user/signin" exact component={UserSignIn} />
-    <Route path="/user/signup" exact component={UserSignUp} />
-    <Route path="/provider/signin" exact component={ProviderSignIn} />
-    <Route path="/provider/signup" exact component={ProviderSignUp} />
-    <Route
-      path="/provider/registration"
-      exact
-      component={ProviderRegistration}
-      isPrivate
-      isProviderRoute
-    />
-    <Route path="/forgot-password" exact component={ForgotPassword} />
-    <Route path="/reset-password" exact component={ResetPassword} />
+    <Route path="/forgot-password" component={ForgotPassword} />
+    <Route path="/reset-password" component={ResetPassword} />
 
-    {/* <Route path="/profile" exact component={Profile} isPrivate /> */}
-    <Route path="/user/dashboard" exact component={Dashboard} isPrivate />
-    <Route
-      path="/provider/dashboard"
-      exact
-      component={ProviderDashboard}
-      isPrivate
-      isProviderRoute
-    />
+    <Route path="/user" component={UserRoutes} />
+    <Route path="/provider" component={ProviderRoutes} />
   </Switch>
 );
 

@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
-import signInBackgroundImg from '../../assets/sign-in-background.png';
+import signInBackgroundImg from '../../../assets/sign-in-background.png';
 
 export const Container = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ export const Content = styled.div`
   padding: 40px 0;
 
   width: 100%;
-  max-width: 650px;
+  max-width: 700px;
 `;
 
 const appearFromLeft = keyframes`
@@ -49,23 +49,6 @@ export const AnimationContainer = styled.div`
     h2 {
       margin-bottom: 10px;
     }
-
-    a {
-      text-decoration: none;
-    }
-
-    a button {
-      margin-top: 8px;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* svg {
-        margin-top: -2px;
-        margin-right: 10px;
-      } */
-    }
   }
 
   > a {
@@ -73,13 +56,12 @@ export const AnimationContainer = styled.div`
     margin-top: 24px;
     text-decoration: none;
     transition: color 0.2s;
+
     display: flex;
     align-items: center;
 
     svg {
-      margin-right: 8px;
-      width: 20px;
-      height: 20px;
+      margin-right: 16px;
     }
 
     &:hover {

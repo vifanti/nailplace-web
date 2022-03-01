@@ -11,17 +11,17 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
-import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
+import { useAuth } from '../../../hooks/auth';
+import { useToast } from '../../../hooks/toast';
 
-import getValidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '../../../utils/getValidationErrors';
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../../assets/logo.svg';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
 
 import {
   Container,
@@ -45,7 +45,7 @@ const ProviderSignUp: React.FC = () => {
   const { addToast } = useToast();
   const history = useHistory();
 
-  // função para não acontecer o reoad da página
+  // TODO: função para não acontecer o reoad da página
   function submitForm(): void {
     if (formRef.current) {
       formRef.current.submitForm();
@@ -92,7 +92,6 @@ const ProviderSignUp: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
-          isProviderUser: true,
         });
 
         history.push('/provider/registration');

@@ -8,7 +8,7 @@ import { Container } from './styles';
 
 interface Props {
   onFileUploaded: (file: File) => void;
-  avatarUrl: string;
+  avatarUrl?: string;
 }
 
 const Dropzone: React.FC<Props> = ({ onFileUploaded, avatarUrl }) => {
