@@ -28,14 +28,14 @@ import {
   Content,
   AddressContainer,
   Legend,
-  ServiceListContainer,
-  ServiceListTitleContainer,
-  ServiceListTitle,
-  ServiceListInstruction,
-  ServiceList,
-  ServiceItem,
-  ServiceImage,
-  ServiceTitle,
+  // ServiceListContainer,
+  // ServiceListTitleContainer,
+  // ServiceListTitle,
+  // ServiceListInstruction,
+  // ServiceList,
+  // ServiceItem,
+  // ServiceImage,
+  // ServiceTitle,
 } from './styles';
 
 interface ProviderFormData {
@@ -54,11 +54,11 @@ export interface Service {
   image_url: string;
 }
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+// const options = [
+//   { value: 'chocolate', label: 'Chocolate' },
+//   { value: 'strawberry', label: 'Strawberry' },
+//   { value: 'vanilla', label: 'Vanilla' },
+// ];
 
 const ProviderRegistration: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
@@ -66,8 +66,8 @@ const ProviderRegistration: React.FC = () => {
   const { addToast } = useToast();
   const history = useHistory();
 
-  const [services, setServices] = useState<Service[]>([]);
-  const [selectedServices, setSelectedServices] = useState<number[]>([]);
+  const [, /* services */ setServices] = useState<Service[]>([]);
+  const [selectedServices /* setSelectedServices */] = useState<number[]>([]);
 
   const [ufs, setUfs] = useState([]);
 
@@ -108,20 +108,20 @@ const ProviderRegistration: React.FC = () => {
       });
   }, []);
 
-  function handleSelectService(id: number): void {
-    const alreadySelected = selectedServices.findIndex(
-      (service) => service === id,
-    );
-    if (alreadySelected >= 0) {
-      const filteredServices = selectedServices.filter(
-        (service) => service !== id,
-      );
+  // function handleSelectService(id: number): void {
+  //   const alreadySelected = selectedServices.findIndex(
+  //     (service) => service === id,
+  //   );
+  //   if (alreadySelected >= 0) {
+  //     const filteredServices = selectedServices.filter(
+  //       (service) => service !== id,
+  //     );
 
-      setSelectedServices(filteredServices);
-    } else {
-      setSelectedServices([...selectedServices, id]);
-    }
-  }
+  //     setSelectedServices(filteredServices);
+  //   } else {
+  //     setSelectedServices([...selectedServices, id]);
+  //   }
+  // }
 
   const handleZipCodeChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const zipCode = event.target.value;
