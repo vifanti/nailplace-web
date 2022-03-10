@@ -3,7 +3,7 @@ import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../../hooks/auth';
 import { useToast } from '../../../hooks/toast';
@@ -21,11 +21,20 @@ interface SigInFormData {
   password: string;
 }
 
+type LocationState = {
+  from: { pathname: string };
+};
+
 const UserSignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const locationState = location.state as LocationState;
+
+  const pathname = locationState?.from?.pathname;
 
   const handleSubmit = useCallback(
     async (data: SigInFormData) => {
@@ -48,7 +57,7 @@ const UserSignIn: React.FC = () => {
           password: data.password,
         });
 
-        history.push('/user/dashboard');
+        navigate(pathname ?? '/users/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -64,7 +73,7 @@ const UserSignIn: React.FC = () => {
         });
       }
     },
-    [signIn, addToast, history],
+    [signIn, navigate, pathname, addToast],
   );
 
   return (
@@ -88,7 +97,7 @@ const UserSignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <Link to="/user/signup">
+            <Link to="/users/signup">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta

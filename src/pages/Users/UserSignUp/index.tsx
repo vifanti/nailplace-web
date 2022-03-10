@@ -9,7 +9,7 @@ import {
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../../hooks/auth';
 import { useToast } from '../../../hooks/toast';
@@ -34,7 +34,6 @@ const UserSignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
-  const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -70,7 +69,7 @@ const UserSignUp: React.FC = () => {
           password: data.password,
         });
 
-        history.push('/user/dashboard');
+        // history.push('/user/dashboard');
 
         addToast({
           type: 'success',
@@ -92,7 +91,7 @@ const UserSignUp: React.FC = () => {
         });
       }
     },
-    [addToast, history, signIn],
+    [addToast, signIn],
   );
 
   return (
@@ -129,7 +128,7 @@ const UserSignUp: React.FC = () => {
             <Button type="submit">Cadastrar</Button>
           </Form>
 
-          <Link to="/user/signin">
+          <Link to="/users/signin">
             <FiArrowLeft />
             Voltar para logon
           </Link>

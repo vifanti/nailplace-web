@@ -9,7 +9,7 @@ import {
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import api from '../../../services/api';
 
@@ -43,7 +43,6 @@ const ProviderSignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
-  const history = useHistory();
 
   // TODO: função para não acontecer o reoad da página
   function submitForm(): void {
@@ -94,7 +93,7 @@ const ProviderSignUp: React.FC = () => {
           password: data.password,
         });
 
-        history.push('/provider/registration');
+        // history.push('/provider/registration');
 
         addToast({
           type: 'success',
@@ -116,7 +115,7 @@ const ProviderSignUp: React.FC = () => {
         });
       }
     },
-    [addToast, history, signIn],
+    [addToast, signIn],
   );
 
   return (

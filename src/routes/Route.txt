@@ -75,7 +75,7 @@ const Route: React.FC<RouteProps> = ({
           return (
             <Redirect
               to={{
-                pathname: '/user/signin',
+                pathname: '/users/signin',
                 state: { from: location },
               }}
             />

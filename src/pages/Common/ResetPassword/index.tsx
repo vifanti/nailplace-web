@@ -3,7 +3,7 @@ import { FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { useToast } from '../../../hooks/toast';
 import getValidationErrors from '../../../utils/getValidationErrors';
@@ -26,7 +26,6 @@ const SignIn: React.FC = () => {
 
   const { addToast } = useToast();
 
-  const history = useHistory();
   const location = useLocation();
 
   const handleSubmit = useCallback(
@@ -61,7 +60,7 @@ const SignIn: React.FC = () => {
           token,
         });
 
-        history.push('/');
+        // history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -77,7 +76,7 @@ const SignIn: React.FC = () => {
         });
       }
     },
-    [addToast, history, location.search],
+    [addToast, location.search],
   );
 
   return (

@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useState, useContext } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useContext,
+  useMemo,
+} from 'react';
 import api from '../services/api';
 
 interface User {
@@ -7,18 +13,20 @@ interface User {
   name: string;
   email: string;
   avatar_url: string;
-  provider: {
-    id: string;
-    latitude: number;
-    longitude: number;
-    providesServices: {
-      service: {
-        id: number;
-        title: string;
-        image_url: string;
-      };
-    }[];
-  };
+  provider:
+    | {
+        id: string;
+        latitude: number;
+        longitude: number;
+        providesServices: {
+          service: {
+            id: number;
+            title: string;
+            image_url: string;
+          };
+        }[];
+      }
+    | unknown;
 }
 
 interface AuthState {
@@ -92,17 +100,12 @@ const AuthProvider: React.FC = ({ children }) => {
     [data.token],
   );
 
+  const contextValue = useMemo(() => {
+    return { user: data.user, signIn, signOut, updateUser };
+  }, [data.user, signIn, signOut, updateUser]);
+
   return (
-    <AuthContext.Provider
-      value={{
-        user: data.user,
-        signIn,
-        signOut,
-        updateUser,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 

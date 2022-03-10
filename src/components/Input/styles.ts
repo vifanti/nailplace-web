@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import ReactSelect from 'react-select';
 
 import Tooltip from '../Tooltip';
 
@@ -24,20 +25,20 @@ export const Container = styled.div<ContainerProps>`
   & + div {
     margin-top: 8px;
   }
-    ${(props) =>
-      props.isErrored &&
-      css`
-        border-color: #c53030;
-      `}
+  ${props =>
+    props.isErrored &&
+    css`
+      border-color: #c53030;
+    `}
 
-  ${(props) =>
+  ${props =>
     props.isFocused &&
     css`
       color: #f27983;
       border-color: #f27983;
     `}
 
-  ${(props) =>
+  ${props =>
     props.isFilled &&
     css`
       color: #f27983;
@@ -55,12 +56,35 @@ export const Container = styled.div<ContainerProps>`
     &::placeholder {
       color: #888;
 
-      ${(props) =>
+      ${props =>
         props.isFocused &&
         css`
           color: #f27983;
         `}
     }
+  }
+
+  select {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    height: 60px;
+    color: #000;
+    width: 100%;
+
+    &::placeholder {
+      color: #888;
+
+      ${props =>
+        props.isFocused &&
+        css`
+          color: #f27983;
+        `}
+    }
+  }
+
+  .container {
+    flex: 2;
   }
 
   svg {
@@ -83,5 +107,52 @@ export const Error = styled(Tooltip)`
     &::before {
       border-color: #c53030 transparent;
     }
+  }
+`;
+
+export const Select = styled(ReactSelect)<ContainerProps>`
+  flex: 1;
+
+  .react-select__control {
+    border: none;
+
+    &:hover {
+      border: none;
+      box-shadow: none;
+    }
+
+    &:not(:hover) {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .react-select__placeholder {
+    color: #888;
+
+    ${props =>
+      props.isFocused &&
+      css`
+        color: #f27983;
+      `}
+  }
+
+  .react-select__value-container {
+    padding: 0;
+    div {
+      margin: 0;
+    }
+  }
+
+  .react-select__single-value {
+    color: #000;
+  }
+
+  .react-select__menu {
+    color: #000;
+  }
+
+  input {
+    height: 60px;
   }
 `;

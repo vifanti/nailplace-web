@@ -5,14 +5,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FiMoreHorizontal, FiMoreVertical } from 'react-icons/fi';
+// import { FiMoreHorizontal, FiMoreVertical } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { useHistory } from 'react-router-dom';
-import Select from 'react-select';
 
 import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logoImg from '../../../assets/logo.svg';
 import { useAuth } from '../../../hooks/auth';
 import { useToast } from '../../../hooks/toast';
@@ -28,14 +27,14 @@ import {
   Content,
   AddressContainer,
   Legend,
-  // ServiceListContainer,
-  // ServiceListTitleContainer,
-  // ServiceListTitle,
-  // ServiceListInstruction,
-  // ServiceList,
-  // ServiceItem,
-  // ServiceImage,
-  // ServiceTitle,
+  ServiceListContainer,
+  ServiceListTitleContainer,
+  ServiceListTitle,
+  ServiceListInstruction,
+  ServiceList,
+  ServiceItem,
+  ServiceImage,
+  ServiceTitle,
 } from './styles';
 
 interface ProviderFormData {
@@ -54,22 +53,34 @@ export interface Service {
   image_url: string;
 }
 
-// const options = [
-//   { value: 'chocolate', label: 'Chocolate' },
-//   { value: 'strawberry', label: 'Strawberry' },
-//   { value: 'vanilla', label: 'Vanilla' },
-// ];
+type Ufs = {
+  sigla: string;
+};
+
+type SelectOptions = {
+  label: string;
+  value: string;
+};
+
+type LocationState = {
+  from: { pathname: string };
+};
 
 const ProviderRegistration: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { updateUser, user } = useAuth();
   const { addToast } = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [, /* services */ setServices] = useState<Service[]>([]);
-  const [selectedServices /* setSelectedServices */] = useState<number[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [selectedServices, setSelectedServices] = useState<number[]>([]);
 
-  const [ufs, setUfs] = useState([]);
+  const [ufs, setUfs] = useState<SelectOptions[]>([]);
+
+  const locationState = location.state as LocationState;
+
+  const pathname = locationState?.from?.pathname;
 
   useEffect(() => {
     if (!user.provider) {
@@ -79,19 +90,19 @@ const ProviderRegistration: React.FC = () => {
             user_id: user.id,
           },
         })
-        .then((response) => {
+        .then(response => {
           const [provider] = response.data;
 
           if (provider) {
             updateUser({ ...user, provider });
-            history.push('/provider/dashboard');
+            navigate(pathname ?? '/providers/dashboard');
           }
         });
     }
-  }, [history, updateUser, user]);
+  }, [navigate, pathname, updateUser, user]);
 
   useEffect(() => {
-    api.get('services').then((response) => {
+    api.get('services').then(response => {
       setServices(response.data);
     });
   }, []);
@@ -99,43 +110,46 @@ const ProviderRegistration: React.FC = () => {
   useEffect(() => {
     axios
       .get('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-      .then((response) => {
-        const ufInitials = response.data.map((uf: { sigla: string }) => {
+      .then(response => {
+        const ibgeUfs = response.data as Ufs[];
+        const ufsOptions = ibgeUfs.map(uf => {
           return { label: uf.sigla, value: uf.sigla };
         });
 
-        setUfs(ufInitials);
+        setUfs(ufsOptions);
       });
   }, []);
 
-  // function handleSelectService(id: number): void {
-  //   const alreadySelected = selectedServices.findIndex(
-  //     (service) => service === id,
-  //   );
-  //   if (alreadySelected >= 0) {
-  //     const filteredServices = selectedServices.filter(
-  //       (service) => service !== id,
-  //     );
+  function handleSelectService(id: number): void {
+    const alreadySelected = selectedServices.findIndex(
+      service => service === id,
+    );
+    if (alreadySelected >= 0) {
+      const filteredServices = selectedServices.filter(
+        service => service !== id,
+      );
 
-  //     setSelectedServices(filteredServices);
-  //   } else {
-  //     setSelectedServices([...selectedServices, id]);
-  //   }
-  // }
+      setSelectedServices(filteredServices);
+    } else {
+      setSelectedServices([...selectedServices, id]);
+    }
+  }
 
-  const handleZipCodeChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleZipCodeChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
     const zipCode = event.target.value;
     if (zipCode.length === 8) {
       axios
         .get(`https://viacep.com.br/ws/${event.target.value}/json/`)
-        .then((response) => {
+        .then(response => {
           if (!response.data.erro) {
             if (zipCode.substring(0, 2) === '13') {
               formRef.current?.setFieldValue('country', 'Brasil');
             }
             const { uf, localidade, bairro, logradouro } = response.data;
             formRef.current?.setData({
-              uf,
+              uf: { label: uf, value: uf },
               city: localidade,
               neighborhood: bairro,
               street: logradouro,
@@ -151,20 +165,39 @@ const ProviderRegistration: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          latitude: Yup.number().required('Latitude obrigatória'),
-          longitude: Yup.number().required('Longitude obrigatória'),
+          uf: Yup.string().required('Estado obrigatório'),
+          city: Yup.string().required('Cidade obrigatória'),
+          neighborhood: Yup.string().required('Bairro obrigatório'),
+          street: Yup.string().required('Rua obrigatória'),
+          zipCode: Yup.string().required('CEP obrigatório'),
+          houseNumber: Yup.string().required('Número obrigatório'),
+          country: Yup.string().required('Pais obrigatório'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        const { latitude, longitude } = data;
+        const { street, houseNumber, neighborhood, city, uf } = data;
+
+        const geolocationResponse = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${street
+            .split(' ')
+            .join('+')}+${houseNumber}+${neighborhood
+            .split(' ')
+            .join('+')}+${city.split(' ').join('+')}+${uf}&key=${
+            process.env.GEOCODING_API_KEY
+          }`,
+        );
+
+        const [results] = geolocationResponse.data.results;
+
+        const { lat, lng } = results.geometry.location;
 
         const formData = {
           user_id: user.id,
-          latitude,
-          longitude,
+          latitude: lat,
+          longitude: lng,
           services: selectedServices.join(','),
         };
 
@@ -172,7 +205,7 @@ const ProviderRegistration: React.FC = () => {
 
         updateUser({ ...user, provider: response.data });
 
-        history.push('/provider/dashboard');
+        navigate('/providers/dashboard');
 
         addToast({
           type: 'success',
@@ -196,7 +229,7 @@ const ProviderRegistration: React.FC = () => {
         });
       }
     },
-    [addToast, history, selectedServices, updateUser, user],
+    [addToast, navigate, selectedServices, updateUser, user],
   );
 
   const handleAvatarChange = useCallback(
@@ -206,7 +239,7 @@ const ProviderRegistration: React.FC = () => {
 
         data.append('avatar', file);
 
-        api.patch('/users/avatar', data).then((response) => {
+        api.patch('/users/avatar', data).then(response => {
           updateUser(response.data);
 
           addToast({
@@ -224,7 +257,10 @@ const ProviderRegistration: React.FC = () => {
       <img src={logoImg} alt="NailPlace" />
       <Content>
         <h2>Conclua o cadastro de prestador</h2>
-        <Dropzone onFileUploaded={handleAvatarChange} />
+        <Dropzone
+          onFileUploaded={handleAvatarChange}
+          avatarUrl={user.avatar_url}
+        />
         <Form style={{ width: '100%' }} ref={formRef} onSubmit={handleSubmit}>
           <AddressContainer>
             <Legend>
@@ -236,26 +272,19 @@ const ProviderRegistration: React.FC = () => {
               onChange={handleZipCodeChange}
             />
             <Input name="country" placeholder="País" />
-            {/* <Input name="uf" placeholder="UF" /> */}
-            <Select options={ufs} />
+            <Input
+              name="uf"
+              type="select"
+              placeholder="UF"
+              selectOptions={ufs}
+            />
             <Input name="city" placeholder="Cidade" />
             <Input name="neighborhood" placeholder="Bairro" />
             <Input name="street" placeholder="Rua" />
             <Input name="houseNumber" placeholder="Número" />
           </AddressContainer>
 
-          <Input
-            name="latitude"
-            icon={FiMoreHorizontal}
-            placeholder="Latitude"
-          />
-          <Input
-            name="longitude"
-            icon={FiMoreVertical}
-            placeholder="Longitude"
-          />
-
-          {/* <ServiceListContainer>
+          <ServiceListContainer>
             <ServiceListTitleContainer>
               <ServiceListTitle>Serviços prestados</ServiceListTitle>
               <ServiceListInstruction>
@@ -263,12 +292,12 @@ const ProviderRegistration: React.FC = () => {
               </ServiceListInstruction>
             </ServiceListTitleContainer>
             <ServiceList>
-              {services.map((service) => (
+              {services.map(service => (
                 <ServiceItem
                   key={service.id}
                   onClick={() => handleSelectService(service.id)}
                   selectedService={
-                    !!selectedServices.find((s) => s === service.id)
+                    !!selectedServices.find(s => s === service.id)
                   }
                 >
                   <ServiceImage src={service.image_url} />
@@ -276,7 +305,7 @@ const ProviderRegistration: React.FC = () => {
                 </ServiceItem>
               ))}
             </ServiceList>
-          </ServiceListContainer> */}
+          </ServiceListContainer>
 
           <Button type="submit">Cadastrar</Button>
         </Form>
