@@ -90,7 +90,7 @@ const ProviderSignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <Link to="/provider/signup">
+            <Link to="/signup/providers">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta

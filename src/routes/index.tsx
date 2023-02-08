@@ -16,10 +16,12 @@ import { useAuth } from '../hooks/auth';
 import Home from '../pages/Common/Home';
 import ProviderRegistration from '../pages/Providers/ProviderRegistration';
 import ProviderSignIn from '../pages/Providers/ProviderSignIn';
+import ProviderSignUp from '../pages/Providers/ProviderSignUp';
 // import ForgotPassword from '../pages/Common/ForgotPassword';
 // import ResetPassword from '../pages/Common/ResetPassword';
 import Dashboard from '../pages/Users/Dashboard';
 import UserSignIn from '../pages/Users/UserSignIn';
+import UserSignUp from '../pages/Users/UserSignUp';
 import RequireProviderAuth from './RequireProviderAuth';
 import RequireUserAuth from './RequireUserAuth';
 
@@ -63,6 +65,35 @@ const Routes: React.FC = () => {
               />
             ) : (
               <ProviderSignIn />
+            )
+          }
+        />
+      </Route>
+
+      <Route path="/signup" element={<Outlet />}>
+        <Route
+          path="/signup/users"
+          element={
+            user ? (
+              <Navigate
+                to={{ pathname: pathname ?? '/users/dashboard' }}
+                replace
+              />
+            ) : (
+              <UserSignUp />
+            )
+          }
+        />
+        <Route
+          path="/signup/providers"
+          element={
+            user && 'provider' in user ? (
+              <Navigate
+                to={{ pathname: pathname ?? '/providers/dashboard' }}
+                replace
+              />
+            ) : (
+              <ProviderSignUp />
             )
           }
         />

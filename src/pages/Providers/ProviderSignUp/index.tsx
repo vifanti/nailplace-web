@@ -9,7 +9,7 @@ import {
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import api from '../../../services/api';
 
@@ -43,13 +43,14 @@ const ProviderSignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
-  // TODO: função para não acontecer o reoad da página
-  function submitForm(): void {
-    if (formRef.current) {
-      formRef.current.submitForm();
-    }
-  }
+  // TODO: função para não acontecer o reload da página
+  // function submitForm(): void {
+  //   if (formRef.current) {
+  //     formRef.current.submitForm();
+  //   }
+  // }
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -93,7 +94,7 @@ const ProviderSignUp: React.FC = () => {
           password: data.password,
         });
 
-        // history.push('/provider/registration');
+        navigate('/providers/registration');
 
         addToast({
           type: 'success',
@@ -115,7 +116,7 @@ const ProviderSignUp: React.FC = () => {
         });
       }
     },
-    [addToast, signIn],
+    [addToast, navigate, signIn],
   );
 
   return (
@@ -188,10 +189,10 @@ const ProviderSignUp: React.FC = () => {
               </InputGroup>
             </fieldset> */}
 
-            <Button onClick={submitForm}>Continuar o cadastro</Button>
+            <Button type="submit">Continuar o cadastro</Button>
           </Form>
 
-          <Link to="/provider/signin">
+          <Link to="/signin/providers">
             <FiArrowLeft />
             Voltar para logon
           </Link>

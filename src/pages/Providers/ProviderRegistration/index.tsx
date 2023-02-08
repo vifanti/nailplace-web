@@ -186,7 +186,7 @@ const ProviderRegistration: React.FC = () => {
             .join('+')}+${houseNumber}+${neighborhood
             .split(' ')
             .join('+')}+${city.split(' ').join('+')}+${uf}&key=${
-            process.env.GEOCODING_API_KEY
+            process.env.REACT_APP_GEOCODING_API_KEY
           }`,
         );
 

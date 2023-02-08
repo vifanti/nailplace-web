@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import {
-  FiArrowLeft,
   FiMail,
   FiUser,
   FiLock,
   FiCreditCard,
+  FiArrowRight,
 } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -22,7 +22,13 @@ import logoImg from '../../../assets/logo.svg';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
-import { Container, Content, AnimationContainer, Background } from './styles';
+import {
+  Container,
+  Content,
+  AnimationContainer,
+  Background,
+  PhoneNumberContainer,
+} from './styles';
 
 interface SignUpFormData {
   name: string;
@@ -103,6 +109,16 @@ const UserSignUp: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h2>Cadastro do usuário</h2>
 
+            <PhoneNumberContainer>
+              <Input
+                name="phoneDDI"
+                value="+55"
+                disabled
+                maxLength={5}
+                type="tel"
+              />
+              <Input name="phoneNumber" placeholder="Número de telefone" />
+            </PhoneNumberContainer>
             <Input name="name" icon={FiUser} placeholder="Nome" />
             <Input name="cpf" icon={FiCreditCard} placeholder="CPF" />
             <Input name="email" icon={FiMail} placeholder="E-mail" />
@@ -128,9 +144,9 @@ const UserSignUp: React.FC = () => {
             <Button type="submit">Cadastrar</Button>
           </Form>
 
-          <Link to="/users/signin">
-            <FiArrowLeft />
+          <Link to="/signin/users">
             Voltar para logon
+            <FiArrowRight />
           </Link>
         </AnimationContainer>
       </Content>

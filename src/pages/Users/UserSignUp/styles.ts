@@ -77,7 +77,7 @@ export const AnimationContainer = styled.div`
     align-items: center;
 
     svg {
-      margin-right: 8px;
+      margin-left: 8px;
       width: 20px;
       height: 20px;
     }
@@ -85,6 +85,41 @@ export const AnimationContainer = styled.div`
     &:hover {
       color: ${shade(0.4, '#F27983')};
     }
+  }
+`;
+
+export const PhoneNumberContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: 8px;
+
+  div {
+    margin-top: 0;
+  }
+
+  div:first-of-type {
+    max-width: 64px;
+    padding-right: 16px;
+    border-right: 0;
+    input {
+      text-align: right;
+      width: 100%;
+    }
+  }
+
+  div:last-of-type {
+    border-left: 0;
+  }
+
+  div + div::before {
+    position: absolute;
+    height: 70%;
+    width: 1px;
+    left: 0px;
+    top: 15%;
+    background: #ccc;
+    content: '';
   }
 `;
 

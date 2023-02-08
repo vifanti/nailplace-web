@@ -97,7 +97,7 @@ const UserSignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <Link to="/users/signup">
+            <Link to="/signup/users">
               <Button white>
                 {/* <FiLogIn /> */}
                 Criar conta
